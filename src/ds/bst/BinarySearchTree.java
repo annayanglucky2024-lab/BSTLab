@@ -20,7 +20,7 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 	private boolean add(Node parent, Node current, T newData) {
 		if(current == null) {
 			
-			int result = newData.compareTo(current.data);
+			int result = newData.compareTo(parent.data);
 			
 			if(result < 0) {
 				parent.leftChild = new Node(newData);
@@ -52,23 +52,17 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 	}
 	
 	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("{ ");
-		if(isEmpty()) {
-			inOrderString(root, sb);
-		}
-		sb.append("} ");		
-		return sb.toString();
+	public String toString() {		
+		return inOrderString();
 	}
 	
 	public String inOrderString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{ ");
-		if(isEmpty()) {
+		sb.append("{");
+		if(!isEmpty()) {
 			inOrderString(root, sb);
 		}
-		sb.append("} ");		
+		sb.append("}");		
 		return sb.toString();
 	}
 	

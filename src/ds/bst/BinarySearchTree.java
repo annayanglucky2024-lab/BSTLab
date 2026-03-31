@@ -1,5 +1,8 @@
 package ds.bst;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BinarySearchTree <T extends Comparable<? super T>> {
 	
 	private Node root;
@@ -89,6 +92,46 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 				sb.append(", ");
 			}
 			inOrderString(current.rightChild,sb);
+		}
+	}
+	
+	public String debugLevelOrderString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(" DEBUG {");
+		
+		if(!isEmpty()) {
+			debugLevelOrderString(sb);
+		}
+		
+		sb.append("}");
+		
+		return sb.toString();
+	}
+	
+	private void debugLevelOrderString(StringBuilder sb) {
+		Queue<Node> q = new LinkedList<>();
+		q.add(root);
+		
+		String repr = "(LC: %s | My: %s |RC: %s)";
+		while(!q.isEmpty()) {
+			Node current = q.remove();
+			String leftChildData = current.leftChild == null ? "" : current.leftChild.data.toString();
+			String rightChildData = current.rightChild == null ? "" : current.rightChild.data.toString();
+			String nodeData = String.format(repr, leftChildData, current.data, rightChildData);
+			sb.append(nodeData);
+			
+			if(current.leftChild != null) {
+				q.add(current.leftChild);
+			}
+			
+			if(current.rightChild != null) {
+				q.add(current.rightChild);
+			}
+			
+			if(!q.isEmpty()) {
+				sb.append(" , ");
+			}
 		}
 	}
 	

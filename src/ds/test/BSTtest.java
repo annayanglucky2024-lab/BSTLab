@@ -17,13 +17,8 @@ public class BSTtest {
 		bst.add(75);
 		bst.add(65);
 		
-		System.out.println(bst);
 		
-		System.out.println("Add duplicat:" + bst.add(35));
-		System.out.println("Add 80:" + bst.add(80));
-		
-		System.out.println(bst);
-		System.out.println(bst.getHeight());
+		System.out.println(bst.debugLevelOrderString());
 
 
 	}

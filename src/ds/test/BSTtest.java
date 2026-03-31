@@ -23,6 +23,8 @@ public class BSTtest {
 		System.out.println("Add 80:" + bst.add(80));
 		
 		System.out.println(bst);
+		System.out.println(bst.getHeight());
+
 
 	}
 

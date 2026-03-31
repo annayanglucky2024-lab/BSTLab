@@ -8,6 +8,92 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 	private Node root;
 	private int size;
 	
+	public boolean remove(T item) {
+		if(isEmpty()) {
+			return false;
+		}else if(size == 1 && root.data.equals(item)) {
+			clear();
+			return true;
+		}else if(removeTraversal(null, root, item)) {
+			size -=1;
+			return true;
+		}else {
+			return false; 
+		}
+	}
+	
+	private boolean removeTraversal(Node parent, Node current, T item) {
+		if(current == null) {
+			return false;
+		}else if(item.compareTo(current.data) < 0 ) {
+			return removeTraversal(current, current.leftChild, item);
+		}else if(item.compareTo(current.data) > 0) {
+			return removeTraversal(current, current.rightChild, item);
+		}else {
+			removeNode(parent, current);
+			return true;
+		}
+	}
+	
+	private void removeNode(Node parent, Node current) {
+		if(current.leftChild == null && current.rightChild ==null) {		
+			removeCase1(parent, current);
+		}else if(current.leftChild != null && current.rightChild ==null) {
+			removeCase2(parent, current);
+		}else if(current.rightChild != null && current.leftChild ==null) {
+			removeCase3(parent, current);
+		}else {
+		
+			removeCase4(current, current, current.rightChild);
+
+		}
+	}
+	
+	private void removeCase1(Node parent, Node current) {
+	    if (parent == null) {
+	        root = null;
+	    } else if (parent.leftChild == current) {
+	        parent.leftChild = null;
+	    } else {
+	        parent.rightChild = null;
+	    }
+	}
+
+
+	
+	private void removeCase2(Node parent, Node current) {
+		if(parent == null) {
+			root = root.leftChild;
+		}else if(parent.leftChild == current) {
+			parent.leftChild = current.leftChild;
+		}else {
+			parent.rightChild = current.leftChild;
+		}
+		
+		current.leftChild = null;
+	}
+	
+	private void removeCase3(Node parent, Node current) {
+		if(parent == null) {
+			root = root.rightChild;
+		} else if(parent.leftChild == current) {
+			parent.leftChild = current.rightChild;
+		} else {
+			parent.rightChild = current.rightChild;
+		}
+		
+		current.rightChild = null;
+	}
+	
+	private void removeCase4(Node swapNode, Node parent, Node current) {
+		if(current.leftChild == null) {
+			swapNode.data = current.data;
+			removeNode(parent, current);
+		}else {
+			removeCase4(swapNode, current, current.leftChild);
+		}
+	}
+	
 	public boolean add(T newData) {
 		boolean wasAdded = false;
 		if(isEmpty()) {
@@ -16,6 +102,7 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 			return true;
 		}else {
 			wasAdded = add(null, root, newData);
+			if(wasAdded) size +=1;
 		}
 		return wasAdded;
 	}

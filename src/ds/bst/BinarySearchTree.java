@@ -12,6 +12,49 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 	public boolean isEmpty() {
 		return size == 0;
 	}
+	
+	public void clear() {
+		root = null;
+		size = 0;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{ ");
+		if(isEmpty()) {
+			inOrderString(root, sb);
+		}
+		sb.append("} ");		
+		return sb.toString();
+	}
+	
+	public String inOrderString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{ ");
+		if(isEmpty()) {
+			inOrderString(root, sb);
+		}
+		sb.append("} ");		
+		return sb.toString();
+	}
+	
+	private void inOrderString(Node current, StringBuilder sb) {
+		if(current != null) {
+			inOrderString(current.leftChild, sb);
+			if(current.leftChild != null) {
+				sb.append(", ");
+			}
+			
+			sb.append(current.data);
+			
+			if(current.rightChild != null) {
+				sb.append(", ");
+			}
+			inOrderString(current.rightChild,sb);
+		}
+	}
+	
 	private class Node {
 		private Node leftChild, rightChild;
 		private T data;

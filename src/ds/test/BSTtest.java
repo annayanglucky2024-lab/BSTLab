@@ -8,21 +8,14 @@ public class BSTtest {
 		BinarySearchTree<Integer>bst = new BinarySearchTree<>();
 		
 		
-		System.out.println(bst);  
-		
 		bst.add(50);
-		bst.add(25);
 		bst.add(75);
-		bst.add(65);
-		bst.add(67);
+		bst.add(85);
 		
 		System.out.println(bst);
-		System.out.println(bst.getHeight());  
-		bst.remove(25);
-		System.out.println(bst.getHeight());  
-		System.out.println(bst);
+		System.out.println(bst.getHeight());
 		System.out.println(bst.debugLevelOrderString());
-	
+		
 	}
 
 }

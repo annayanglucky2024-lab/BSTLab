@@ -136,6 +136,10 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 	
 		fixHeight(current);
 		
+		if(wasAdded) {
+			rebalance(parent, current);
+		}
+		
 		return wasAdded;
 	}
 	public int getSize() {

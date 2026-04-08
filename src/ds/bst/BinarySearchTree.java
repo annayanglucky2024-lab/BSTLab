@@ -23,16 +23,20 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 	}
 	
 	private boolean removeTraversal(Node parent, Node current, T item) {
+		boolean wasRemoved = false;
 		if(current == null) {
 			return false;
 		}else if(item.compareTo(current.data) < 0 ) {
-			return removeTraversal(current, current.leftChild, item);
+			wasRemoved = removeTraversal(current, current.leftChild, item);
 		}else if(item.compareTo(current.data) > 0) {
-			return removeTraversal(current, current.rightChild, item);
+			wasRemoved = removeTraversal(current, current.rightChild, item);
 		}else {
 			removeNode(parent, current);
-			return true;
+			wasRemoved = true;
 		}
+	
+		fixHeight(current);
+		return wasRemoved;
 	}
 	
 	private void removeNode(Node parent, Node current) {
@@ -92,6 +96,8 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 		}else {
 			removeCase4(swapNode, current, current.leftChild);
 		}
+		
+		fixHeight(current);
 	}
 	
 	public boolean add(T newData) {
@@ -108,6 +114,7 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 	}
 	
 	private boolean add(Node parent, Node current, T newData) {
+		boolean wasAdded = false;
 		if(current == null) {
 			
 			int result = newData.compareTo(parent.data);
@@ -120,14 +127,17 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 			
 			return true;
 		}else if(newData.compareTo(current.data) < 0) {
-			return add(current, current.leftChild, newData);
+			wasAdded = add(current, current.leftChild, newData);
 		}else if(newData.compareTo(current.data) > 0) {
-			return add(current, current.rightChild, newData);
+			wasAdded = add(current, current.rightChild, newData);
 		}else {
-		return false;
+			return false;
 		}
-	}
+	
+		fixHeight(current);
 		
+		return wasAdded;
+	}
 	public int getSize() {
 		return size;
 	}
@@ -149,8 +159,17 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 		if(current == null) {
 			return -1;
 		}
-		return Math.max(getHeight(current.leftChild), getHeight(current.rightChild)) +1;
+		return Math.max(current.leftHeight, current.rightHeight) +1;
 	}
+	
+	private void fixHeight(Node node) {
+		if(node != null) {
+			node.leftHeight = getHeight(node.leftChild);
+			node.rightHeight = getHeight(node.rightChild);
+			
+		}
+	}
+	
 	@Override
 	public String toString() {		
 		return inOrderString();
@@ -200,12 +219,12 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 		Queue<Node> q = new LinkedList<>();
 		q.add(root);
 		
-		String repr = "(LC: %s | My: %s |RC: %s)";
+		String repr = "(LH: %d LC: %s | My: %s |RH: %d RC: %s)";
 		while(!q.isEmpty()) {
 			Node current = q.remove();
 			String leftChildData = current.leftChild == null ? "" : current.leftChild.data.toString();
 			String rightChildData = current.rightChild == null ? "" : current.rightChild.data.toString();
-			String nodeData = String.format(repr, leftChildData, current.data, rightChildData);
+			String nodeData = String.format(repr, current.leftHeight, leftChildData, current.data, current.rightHeight,rightChildData);
 			sb.append(nodeData);
 			
 			if(current.leftChild != null) {

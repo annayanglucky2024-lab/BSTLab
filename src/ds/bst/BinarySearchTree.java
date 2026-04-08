@@ -226,9 +226,13 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 		private Node leftChild, rightChild;
 		private T data;
 		
+		private int leftHeight, rightHeight;
 		
 		public Node(T data) {
 			this.data = data;
+			
+			leftHeight = -1;
+			rightHeight = -1;
 		}
 	}
 

@@ -36,6 +36,11 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 		}
 	
 		fixHeight(current);
+		
+		if(wasRemoved) {
+			rebalance(parent,current);
+		}
+		
 		return wasRemoved;
 	}
 	
@@ -98,6 +103,9 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 		}
 		
 		fixHeight(current);
+		
+		
+		rebalance(parent, current);
 	}
 	
 	public boolean add(T newData) {
@@ -210,7 +218,6 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 		}
 		
 		if(balance(node) > 1) {
-			
 			if(balance(node.leftChild) < 0) {
 				node.leftChild = leftRotation(node.leftChild);
 			}
@@ -224,9 +231,9 @@ public class BinarySearchTree <T extends Comparable<? super T>> {
 			}
 			
 			
-		}else if(balance(node) < 1) {
+		}else if(balance(node) < -1) {
 			if(balance(node.rightChild) > 0) {
-				node.rightChild = leftRotation(node.rightChild);
+				node.rightChild = rightRotation(node.rightChild);
 				
 			}
 			
